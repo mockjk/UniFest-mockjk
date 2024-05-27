@@ -1,5 +1,3 @@
-import { useState } from "react";
-import { AppState } from "react-native";
 import { supabase } from "./config";
 
 export async function signInWithEmail(email: string, password: string) {
@@ -8,9 +6,13 @@ export async function signInWithEmail(email: string, password: string) {
     password: password,
   });
 
-  console.log("Dentro do supabase", error);
+  if(error === null){
+    return error;
+  }
+  
+  console.log(error);
   return error;
-}
+};
 
 export async function signUpWithEmail(email: string, password: string) {
   const {
@@ -21,5 +23,5 @@ export async function signUpWithEmail(email: string, password: string) {
     password: password,
   });
 
-  return { session, error};
-}
+  return { session, error };
+};

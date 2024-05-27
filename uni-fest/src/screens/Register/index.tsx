@@ -1,7 +1,7 @@
-import { View, StyleSheet } from "react-native";
+import { View } from "react-native";
 import AlignedLogin from "../../components/AlignedLogin";
 import { Button, Text, TextInput } from "react-native-paper";
-import { width } from "../../constants/measures";
+import styles from "../Login/styles";
 
 export default function Register() {
   return (
@@ -21,18 +21,5 @@ export default function Register() {
       </View>
     </AlignedLogin>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  generic: {
-    width: width * 0.8,
-    marginBottom: 12,
-  },
-  form: {
-    justifyContent: "flex-start",
-  },
-  title: {
-    fontSize: 32,
-    marginBottom: 16,
-  },
-});

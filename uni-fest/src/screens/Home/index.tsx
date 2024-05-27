@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { Text } from "react-native-paper";
-import AlignedLogin from "../../components/AlignedLogin";
-
+import styles from "./styles";
+import MapView from "react-native-maps";
+import { SafeAreaView } from "react-native-safe-area-context";
 interface Props {
     navigation: any;
 }
@@ -17,8 +17,8 @@ export default function Home(props:Props ) {
     );
     
     return (
-        <AlignedLogin>
-            <Text>Home</Text>
-        </AlignedLogin>
-    )
+        <SafeAreaView>
+            <MapView style={styles.map}/>
+        </SafeAreaView>
+    );
 }

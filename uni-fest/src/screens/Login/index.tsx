@@ -1,22 +1,44 @@
-import { Button, Text, TextInput } from "react-native-paper";
+import { Button, IconButton, Text, TextInput } from "react-native-paper";
 import { useState } from "react";
 import AlignedLogin from "../../components/AlignedLogin";
-import { width } from "../../constants/measures";
-import { StyleSheet, View } from "react-native";
+import styles from "./styles";
+import { View } from "react-native";
 import { signInWithEmail } from "../../lib/supabase/auth";
+import { AuthError } from "@supabase/supabase-js";
 
 interface Props {
   navigation: any;
 }
 
+interface showError {
+  render: boolean;
+  error: AuthError | null;
+}
+
 export default function Login(props: Props) {
+  
+  const [showError, setShowError] = useState<showError>({
+    render: false,
+    error: null
+  })
+
+  const closeError = () => {
+    setShowError(prevState => ({
+        ...prevState,
+        render: false
+    }))
+  }
 
 
   async function tryLogin(email: string, password: string){
     const error = await signInWithEmail(email, password);
 
     if(error){
-      console.error("Error", error.message);
+      setShowError({
+        render: true,
+        error: error
+      });
+
       return;
     }
 
@@ -29,9 +51,21 @@ export default function Login(props: Props) {
   return (
     <AlignedLogin>
       <View style={styles.title}>
+
+      {showError.render &&
+        <View style={styles.errorBox}>
+          <View>
+            <Button style={styles.buttonError} rippleColor="transparent" onPress={() => closeError()}>
+              <IconButton icon="close"/>
+            </Button>
+          </View>
+          <Text style={{color: "red"}}>{'\t'}{showError.error?.message}</Text>
+        </View>
+      }
+
         <Text style={styles.title}>Log in</Text>
         <TextInput value={email} onChangeText={setEmail} style={styles.generic} label="Email" />
-        <TextInput value={password} onChangeText={setPassword} secureTextEntry style={styles.generic} label="Password" />
+        <TextInput value={password} onChangeText={setPassword} secureTextEntry={true} style={styles.generic} label="Password" />
         <Button style={styles.generic} mode="contained" onPress={() => tryLogin(email, password)}>
           Log in
         </Button>
@@ -45,18 +79,4 @@ export default function Login(props: Props) {
       </View>
     </AlignedLogin>
   );
-}
-
-const styles = StyleSheet.create({
-  generic: {
-    width: width * 0.8,
-    marginBottom: 12,
-  },
-  form: {
-    justifyContent: "flex-start",
-  },
-  title: {
-    fontSize: 32,
-    marginBottom: 16,
-  },
-});
+};
