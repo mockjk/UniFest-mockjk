@@ -13,19 +13,21 @@ interface Props {
 interface showError {
   render: boolean;
   error: AuthError | null;
+  errorStatus: boolean;
 }
 
 export default function Login(props: Props) {
   
   const [showError, setShowError] = useState<showError>({
     render: false,
-    error: null
+    error: null,
+    errorStatus: false
   })
 
   const closeError = () => {
     setShowError(prevState => ({
         ...prevState,
-        render: false
+        render: false,
     }))
   }
 
@@ -36,7 +38,8 @@ export default function Login(props: Props) {
     if(error){
       setShowError({
         render: true,
-        error: error
+        error: error,
+        errorStatus: true,
       });
 
       return;
@@ -54,9 +57,9 @@ export default function Login(props: Props) {
 
       {showError.render &&
         <View style={styles.errorBox}>
-          <View>
+          <View style={{justifyContent: "center"}}>
             <Button style={styles.buttonError} rippleColor="transparent" onPress={() => closeError()}>
-              <IconButton icon="close"/>
+            <IconButton icon="close"/>
             </Button>
           </View>
           <Text style={{color: "red"}}>{'\t'}{showError.error?.message}</Text>
@@ -64,8 +67,8 @@ export default function Login(props: Props) {
       }
 
         <Text style={styles.title}>Log in</Text>
-        <TextInput value={email} onChangeText={setEmail} style={styles.generic} label="Email" />
-        <TextInput value={password} onChangeText={setPassword} secureTextEntry={true} style={styles.generic} label="Password" />
+        <TextInput value={email} onChangeText={setEmail} style={styles.generic} label="Email" error={showError.errorStatus} onChange={() => setShowError(prevState => ({...prevState, errorStatus: false}))} />
+        <TextInput value={password} onChangeText={setPassword} secureTextEntry={true} style={styles.generic} label="Password" error={showError.errorStatus}  onChange={() => setShowError(prevState => ({...prevState, errorStatus: false}))}/>
         <Button style={styles.generic} mode="contained" onPress={() => tryLogin(email, password)}>
           Log in
         </Button>
