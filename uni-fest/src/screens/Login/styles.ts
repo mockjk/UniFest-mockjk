@@ -26,8 +26,6 @@ const styles = StyleSheet.create({
       flexDirection: "row-reverse",
     },
     buttonError: {
-      alignContent: 'flex-end', 
-      marginRight: -width*0.04,
     },
   });
 

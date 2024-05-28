@@ -57,10 +57,9 @@ export default function Login(props: Props) {
 
       {showError.render &&
         <View style={styles.errorBox}>
-          <View style={{justifyContent: "center"}}>
-            <Button style={styles.buttonError} rippleColor="transparent" onPress={() => closeError()}>
+          <View style={{justifyContent: "center", alignItems: "center", display: "flex"}}>
+            <Button style={styles.buttonError} rippleColor="transparent" onPress={() => closeError()} children=''/>
             <IconButton icon="close"/>
-            </Button>
           </View>
           <Text style={{color: "red"}}>{'\t'}{showError.error?.message}</Text>
         </View>
