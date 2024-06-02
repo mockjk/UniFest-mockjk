@@ -14,4 +14,7 @@ const styles = StyleSheet.create({
       fontSize: 32,
       marginBottom: 16,
     },
+    maskedInput: {
+      
+    }
   });

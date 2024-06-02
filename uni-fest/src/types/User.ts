@@ -4,7 +4,7 @@ export default interface User{
     password: string;
     fullName: string;
     age?: number;
-    phone: number;
+    phone?: number;
     cpf: string;
     token?: string;
 }

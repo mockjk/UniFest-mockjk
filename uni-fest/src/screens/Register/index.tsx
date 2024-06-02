@@ -6,6 +6,8 @@ import { signUpWithEmail } from "../../lib/supabase/auth";
 import { useState } from "react";
 import User from '../../types/User';
 import LoginErrors from "../../types/LoginErrors";
+import TextInputPassword from "../../components/TextInputPassword";
+
 
 interface Props {
   navigation: any;
@@ -17,8 +19,8 @@ export default function Register(props: Props) {
     email: "",
     password: "",
     fullName: "",
-    age: 0,
-    phone: 0,
+    age: undefined,
+    phone: undefined,
     cpf: "",
   });
 
@@ -33,7 +35,7 @@ export default function Register(props: Props) {
     if(result.error){
       
     }
-  }
+  };
 
 
   return (
@@ -55,19 +57,18 @@ export default function Register(props: Props) {
           value={user.email}
           onChangeText={(text) => setUser({...user, email: text})}
         />
-        <TextInput 
-          maxLength={16} 
-          style={styles.generic} 
+        <TextInputPassword 
+          style={styles.generic}
           label="Password"
           value={user.password}
-          onChangeText={(text) => setUser({...user, password: text})}
+          action={(text:string) => setUser({...user, password: text})}
         />
         <TextInput 
           maxLength={3}
           keyboardType="numeric"
           style={styles.generic} 
           label="Idade"
-          value={user.age === undefined ? user.age : user.age.toString()}
+          value={user.age !== 0 ? user.age?.toString() : ''}
           onChangeText={(text) => setUser({...user, age: Number(text)})}
         />
         <TextInput 
@@ -75,11 +76,11 @@ export default function Register(props: Props) {
           keyboardType="phone-pad"
           style={styles.generic} 
           label="Telefone"
-          value={user.phone.toString()}
+          value={user.phone === undefined ? user.phone : user.phone.toString()}
           onChangeText={(text) => setUser({...user, phone: Number(text)})}
         />
 
-        <TextInput 
+        <TextInput
           maxLength={14} 
           keyboardType="numeric"
           style={styles.generic} 
